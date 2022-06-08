@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"log"
+	"github.com/joko0811/timestamp/data"
 )
 
 
@@ -12,5 +13,5 @@ func main() {
 	if(err!=nil){
 		log.Println("err",err)
 	}
-	fmt.Println(wd)
+	fmt.Println(wd+data.config.Filename)
 }
