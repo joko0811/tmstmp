@@ -33,7 +33,8 @@ func main() {
 	seekByte := seekTagetHeader(filepath, `^#+ 行動ログ`)
 	fmt.Println(int64(seekByte))
 	hhmm := "[" + fmt.Sprintf("%02d", t.Hour()) + ":" + fmt.Sprintf("%02d", t.Minute()) + "]"
-	writeSeekPoint(filepath, seekByte, hhmm+" "+"hogehuga")
+	//TODO os.Args[1]の存在確認
+	writeSeekPoint(filepath, seekByte, hhmm+" "+os.Args[1])
 }
 
 func seekTagetHeader(filepath string, header string) (seekByte int) {
