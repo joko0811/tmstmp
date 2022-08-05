@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-const config_file_name string = "tmstmp_config.json"
+const config_file_path string = "tmstmp_config.json"
 
 type Config struct {
 	Log_Directory    string `json:"log_directory"`
@@ -18,8 +18,8 @@ func PutDefaultConfigFile() error {
 	// デフォルト設定ファイルの配置
 
 	c := Config{
-		Log_Directory:    "./log/",
-		Output_File_Path: "./timestamp.txt",
+		Log_Directory:    "./.tmstmp/log/",
+		Output_File_Path: "./.tmstmp/timestamp.txt",
 	}
 
 	b, err := json.Marshal(c)
@@ -29,8 +29,11 @@ func PutDefaultConfigFile() error {
 
 	var content bytes.Buffer
 	err = json.Indent(&content, b, "", "  ")
+	if err != nil {
+		return fmt.Errorf("putDefaultConfigFile: %s", err)
+	}
 
-	fp, err := os.Create(config_file_name)
+	fp, err := os.Create(config_file_path)
 	if err != nil {
 		return fmt.Errorf("putDefaultConfigFile: %s", err)
 	}
@@ -43,7 +46,7 @@ func PutDefaultConfigFile() error {
 func ReadConfigFile() (Config, error) {
 	var config Config
 
-	b, err := os.ReadFile(config_file_name)
+	b, err := os.ReadFile(config_file_path)
 	if err != nil {
 		return config, fmt.Errorf("readConfigFile: %s", err)
 	}

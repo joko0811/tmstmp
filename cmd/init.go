@@ -1,13 +1,14 @@
 /*
 Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
+	"log"
+	"os"
+
 	"github.com/joko0811/tmstmp/configs"
 	"github.com/spf13/cobra"
-	"log"
 )
 
 // initCmd represents the init command
@@ -21,9 +22,22 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
+
+		if _, err := os.Stat("./.tmstmp"); os.IsNotExist(err) {
+			os.Mkdir("./.tmstmp", 0777)
+		}
+
 		err := configs.PutDefaultConfigFile()
 		if err != nil {
 			log.Fatal(err)
+		}
+
+		c, err := configs.ReadConfigFile()
+		if err != nil {
+			log.Fatal(err)
+		}
+		if _, err := os.Stat(c.Log_Directory); os.IsNotExist(err) {
+			os.Mkdir(c.Log_Directory, 0777)
 		}
 	},
 }
