@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+const config_file_name string = "tmstmp_config.json"
+
 type Config struct {
 	Log_Directory    string `json:"log_directory"`
 	Output_File_Path string `json:"output_file_path"`
@@ -28,7 +30,7 @@ func PutDefaultConfigFile() error {
 	var content bytes.Buffer
 	err = json.Indent(&content, b, "", "  ")
 
-	fp, err := os.Create("config.json")
+	fp, err := os.Create(config_file_name)
 	if err != nil {
 		return fmt.Errorf("putDefaultConfigFile: %s", err)
 	}
@@ -41,7 +43,7 @@ func PutDefaultConfigFile() error {
 func ReadConfigFile() (Config, error) {
 	var config Config
 
-	b, err := os.ReadFile("./config.json")
+	b, err := os.ReadFile(config_file_name)
 	if err != nil {
 		return config, fmt.Errorf("readConfigFile: %s", err)
 	}
