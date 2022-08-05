@@ -6,7 +6,10 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/joko0811/tmstmp/configs"
+	"github.com/joko0811/tmstmp/pkg"
 	"github.com/spf13/cobra"
+	"log"
 	"os"
 )
 
@@ -25,26 +28,26 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		message, _ := cmd.Flags().GetString("message")
 		if message != "" {
-			fmt.Println(message)
-		}
-		/*
 			hhmm := pkg.Generate_hhmm()
+			fmt.Println(message)
 
-			conf, err := configs.ReadConfigFile()
+			// ログ出力箇所を設定ファイルから読み取る
+			c, err := configs.ReadConfigFile()
 			if err != nil {
 				log.Fatal(err)
 			}
+			log_dir := c.Log_Directory + "time.log"
 
-			f, err := os.OpenFile(conf.Log_Directory, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+			// 上書きモードで開く
+			f, err := os.OpenFile(log_dir, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 			if err != nil {
 				log.Fatal(err)
 			}
 			defer f.Close()
-
-			if _, err = f.WriteString(hhmm + args[0]); err != nil {
+			if _, err = f.WriteString(hhmm + " " + message + "\n"); err != nil {
 				log.Fatal(err)
 			}
-		*/
+		}
 
 	},
 }

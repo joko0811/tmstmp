@@ -1,4 +1,4 @@
-module github.com/joko0811/tmstp
+module github.com/joko0811/tmstmp
 
 go 1.18
 

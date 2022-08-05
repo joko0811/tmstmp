@@ -5,7 +5,7 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"github.com/joko0811/tmstp/configs"
+	"github.com/joko0811/tmstmp/configs"
 	"github.com/spf13/cobra"
 	"log"
 )

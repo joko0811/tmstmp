@@ -22,3 +22,5 @@ go.work
 
 # MAC file
 .DS_Store
+
+bin/
