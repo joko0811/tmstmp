@@ -1,16 +1,15 @@
 /*
 Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"fmt"
+	"log"
+	"os"
+
 	"github.com/joko0811/tmstmp/configs"
 	"github.com/joko0811/tmstmp/pkg"
 	"github.com/spf13/cobra"
-	"log"
-	"os"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -26,27 +25,15 @@ to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
+
 		message, _ := cmd.Flags().GetString("message")
 		if message != "" {
-			hhmm := pkg.Generate_hhmm()
-			fmt.Println(message)
 
-			// ログ出力箇所を設定ファイルから読み取る
-			c, err := configs.ReadConfigFile()
+			err := log_append(message)
 			if err != nil {
 				log.Fatal(err)
 			}
-			log_dir := c.Log_Directory + "time.log"
 
-			// 上書きモードで開く
-			f, err := os.OpenFile(log_dir, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
-			if err != nil {
-				log.Fatal(err)
-			}
-			defer f.Close()
-			if _, err = f.WriteString(hhmm + " " + message + "\n"); err != nil {
-				log.Fatal(err)
-			}
 		}
 
 	},
@@ -71,4 +58,22 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().StringP("message", "m", "", "打刻するメッセージを指定してください")
+}
+
+func log_append(message string) error {
+
+	message = pkg.Generate_logfmt(message)
+
+	c, err := configs.ReadConfigFile()
+	if err != nil {
+		return err
+	}
+	log_dir := c.Log_Directory + "time.log"
+
+	err = pkg.File_append(log_dir, message+"\n")
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
