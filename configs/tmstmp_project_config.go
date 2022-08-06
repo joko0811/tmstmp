@@ -7,20 +7,33 @@ import (
 	"os"
 )
 
-const config_file_path string = "tmstmp_config.json"
+const (
+	Project_Folder_Name = ".tmstmp"
+	Config_File_Name    = "tmstmp_config.json"
+)
 
-type Config struct {
-	Log_Directory    string `json:"log_directory"`
-	Output_File_Path string `json:"output_file_path"`
+func GetConfigFilePath() string {
+	return "./" + Project_Folder_Name + "/" + Config_File_Name
 }
 
-func PutDefaultConfigFile() error {
+type Config struct {
+	Log_Folder_Name  string `json:"log_directory"`
+	Log_File_Name    string `json:"log_file_name"`
+	Output_File_Name string `json:"output_file_path"`
+}
+
+func InitConfig() Config {
+	return Config{
+		Log_Folder_Name:  "log",
+		Log_File_Name:    "timelog.txt",
+		Output_File_Name: "timestamp.txt",
+	}
+}
+
+func PutDefaultConfigFile(c Config) error {
 	// デフォルト設定ファイルの配置
 
-	c := Config{
-		Log_Directory:    "./.tmstmp/log/",
-		Output_File_Path: "./.tmstmp/timestamp.txt",
-	}
+	config_file_path := GetConfigFilePath()
 
 	b, err := json.Marshal(c)
 	if err != nil {
@@ -45,6 +58,7 @@ func PutDefaultConfigFile() error {
 
 func ReadConfigFile() (Config, error) {
 	var config Config
+	config_file_path := GetConfigFilePath()
 
 	b, err := os.ReadFile(config_file_path)
 	if err != nil {
