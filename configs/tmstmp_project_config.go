@@ -19,14 +19,14 @@ func GetConfigFilePath() string {
 type Config struct {
 	Log_Folder_Name  string `json:"log_directory"`
 	Log_File_Name    string `json:"log_file_name"`
-	Output_File_Name string `json:"output_file_path"`
+	Output_File_Path string `json:"output_file_path"`
 }
 
 func InitConfig() Config {
 	return Config{
 		Log_Folder_Name:  "log",
 		Log_File_Name:    "timelog.txt",
-		Output_File_Name: "timestamp.txt",
+		Output_File_Path: "./timestamp.txt",
 	}
 }
 
