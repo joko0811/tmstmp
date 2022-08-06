@@ -68,9 +68,9 @@ func log_append(message string) error {
 	if err != nil {
 		return err
 	}
-	log_dir := c.Log_Directory + "time.log"
+	log_path := pkg.GenerateFilePath([]string{configs.Project_Folder_Name, c.Log_Folder_Name}, c.Log_File_Name, true)
 
-	err = pkg.File_append(log_dir, message+"\n")
+	err = pkg.FileAppend(log_path, message+"\n")
 	if err != nil {
 		return err
 	}
