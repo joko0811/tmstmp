@@ -10,7 +10,6 @@ import (
 	"os"
 
 	"github.com/joko0811/tmstmp/configs"
-	"github.com/joko0811/tmstmp/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +29,7 @@ to quickly create a Cobra application.`,
 			log.Fatal(err)
 		}
 
-		log_path := pkg.GenerateFilePath([]string{configs.Project_Folder_Name, c.Log_Folder_Name}, c.Log_File_Name, true)
+		log_path := configs.GetLogFilePath(c)
 		b, err := os.ReadFile(log_path)
 		if err != nil {
 			log.Fatal(err)

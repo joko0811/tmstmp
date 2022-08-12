@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/joko0811/tmstmp/pkg"
 )
 
 const (
@@ -13,7 +15,7 @@ const (
 )
 
 func GetConfigFilePath() string {
-	return "./" + Project_Folder_Name + "/" + Config_File_Name
+	return pkg.GenerateFilePath([]string{Project_Folder_Name}, Config_File_Name, true)
 }
 
 type Config struct {
@@ -71,4 +73,10 @@ func ReadConfigFile() (Config, error) {
 	}
 
 	return config, err
+}
+
+func GetLogFilePath(c Config) string {
+	log_path := pkg.GenerateFilePath([]string{Project_Folder_Name, c.Log_Folder_Name}, c.Log_File_Name, true)
+
+	return log_path
 }
