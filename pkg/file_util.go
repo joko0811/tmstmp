@@ -21,7 +21,7 @@ func GenerateFilePath(dir []string, filename string, isRelative bool) string {
 
 func FileAppend(file_path string, text string) error {
 
-	// 上書きモードで開いて書き込む
+	// 追記モードで開いて書き込む
 	f, err := os.OpenFile(file_path, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return fmt.Errorf("file_append: %s", err)
@@ -30,6 +30,24 @@ func FileAppend(file_path string, text string) error {
 	defer f.Close()
 	if _, err = f.WriteString(text); err != nil {
 		return fmt.Errorf("file_append: %s", err)
+	}
+
+	return nil
+}
+
+func FileOverwrite(file_path string, text string) error {
+
+	// 上書きする
+	f, err := os.Create(file_path)
+	if err != nil {
+		return fmt.Errorf("file_overwrite: %s", err)
+	}
+
+	defer f.Close()
+
+	_, err = f.WriteString(text)
+	if err != nil {
+		return fmt.Errorf("file_overwrite: %s", err)
 	}
 
 	return nil

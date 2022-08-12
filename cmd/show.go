@@ -5,17 +5,17 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"os"
 
 	"github.com/joko0811/tmstmp/configs"
-	"github.com/joko0811/tmstmp/pkg"
 	"github.com/spf13/cobra"
 )
 
-// exportCmd represents the export command
-var exportCmd = &cobra.Command{
-	Use:   "export",
+// showCmd represents the show command
+var showCmd = &cobra.Command{
+	Use:   "show",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -24,7 +24,6 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-
 		c, err := configs.ReadConfigFile()
 		if err != nil {
 			log.Fatal(err)
@@ -32,33 +31,24 @@ to quickly create a Cobra application.`,
 
 		log_path := configs.GetLogFilePath(c)
 		b, err := os.ReadFile(log_path)
-
-		s := "\n" + string(b)
-
-		err = pkg.FileAppend(c.Output_File_Path, s)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		// ファイルを空にする
-		err = pkg.FileOverwrite(log_path, "")
-		if err != nil {
-			log.Fatal(err)
-		}
-
+		fmt.Printf(string(b))
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(exportCmd)
+	rootCmd.AddCommand(showCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// exportCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// showCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// exportCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// showCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
