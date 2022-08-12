@@ -40,6 +40,12 @@ to quickly create a Cobra application.`,
 			log.Fatal(err)
 		}
 
+		// ファイルを空にする
+		err = pkg.FileOverwrite(log_path, "")
+		if err != nil {
+			log.Fatal(err)
+		}
+
 	},
 }
 
